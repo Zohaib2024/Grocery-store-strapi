@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "total_revenues",
+  "info": {
+    "singularName": "total-revenue",
+    "pluralName": "total-revenues",
+    "displayName": "total revenue"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "revenue": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
