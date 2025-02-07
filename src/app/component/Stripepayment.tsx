@@ -43,7 +43,7 @@ const StripePayment = () => {
             currency: "usd",
           }}
         >
-          <CheckoutPage amount={totalPrice} />
+          <CheckoutPage />
         </Elements>
       </Card>
     </div>
