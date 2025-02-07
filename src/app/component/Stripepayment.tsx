@@ -22,7 +22,9 @@ const StripePayment = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+  console.log("totalPrice : ", totalPrice);
   const amount = totalPrice;
+  console.log("Amount : ", amount);
   return (
     <div>
       <Card>

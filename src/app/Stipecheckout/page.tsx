@@ -15,7 +15,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import Header from "../component/Header";
 
 const CheckoutPage = ({ amount }: { amount: any }) => {
-  console.log(window.location.host);
+  // console.log(window.location.host);
+
+  console.log("in checkout page " + amount);
 
   const myhost = window.location.host;
   let URL = "";
