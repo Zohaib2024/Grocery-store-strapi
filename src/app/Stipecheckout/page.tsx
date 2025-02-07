@@ -14,7 +14,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Header from "../component/Header";
 
-const CheckoutPage = ({ amount }: { amount: number }) => {
+const CheckoutPage = ({ amount }: { amount: any }) => {
   console.log(window.location.host);
 
   const myhost = window.location.host;
