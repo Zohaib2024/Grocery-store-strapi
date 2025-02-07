@@ -5,16 +5,16 @@ import CheckoutPage from "../Stipecheckout/page";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Card } from "@/components/ui/card";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
+// Ensure the Stripe key is available before loading Stripe
+const stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+if (!stripeKey) {
+  console.error("Stripe Publishable Key is missing.");
 }
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+const stripePromise = stripeKey ? loadStripe(stripeKey) : null;
 
 const StripePayment = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -22,25 +22,28 @@ const StripePayment = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  console.log("totalPrice : ", totalPrice);
-  const amount = totalPrice;
-  console.log("Amount : ", amount);
-  return (
-    <div>
-      <Card>
-        <h1 className="text-6xl font-bold text-center">
-          {/* Your Total amount is {amount} */}
-        </h1>
 
+  if (!stripePromise) {
+    return (
+      <div className="text-center text-red-500">
+        Error: Stripe is not initialized. Please check your environment
+        variables.
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <Card className="p-6 shadow-lg rounded-lg w-full max-w-lg">
         <Elements
           stripe={stripePromise}
           options={{
             mode: "payment",
-            amount: convertToSubCurrency(amount),
+            amount: convertToSubCurrency(totalPrice),
             currency: "usd",
           }}
         >
-          <CheckoutPage amount={amount} />
+          <CheckoutPage amount={totalPrice} />
         </Elements>
       </Card>
     </div>

@@ -11,10 +11,12 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  totalAmount: number;
 }
 
 const initialState: CartState = {
   items: [],
+  totalAmount: 0,
 };
 
 const cartSlice = createSlice({
@@ -61,6 +63,12 @@ const cartSlice = createSlice({
         state.items[itemIndex].quantity -= 1;
       }
     },
+    updateTotalAmount: (state) => {
+      state.totalAmount = state.items.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+    },
     clearCart: (state) => {
       state.items = [];
     },
@@ -73,6 +81,7 @@ export const {
   updateQuantity,
   increaseQuantity,
   decreaseQuantity,
+  updateTotalAmount,
   clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
